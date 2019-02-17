@@ -18,7 +18,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	// defer m.Dispose()
+	defer m.Dispose()
 
 	LoadAssets(logger, m)
 	ExecuteScript(logger, m)
