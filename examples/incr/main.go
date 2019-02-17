@@ -3,43 +3,51 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/eliquious/manifold"
 	"github.com/eliquious/manifold/examples/incr/lib"
 )
 
 func main() {
+	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime|log.Lmicroseconds)
+
 	// New manifold
 	m, err := manifold.New(&Invoker{})
 	if err != nil {
 		panic(err)
 	}
+	// defer m.Dispose()
 
-	//
-	for _, asset := range lib.ListAssetNames() {
-		if asset == "index.js" {
-			continue
-		}
+	LoadAssets(logger, m)
+	ExecuteScript(logger, m)
+}
 
-		src, err := lib.ReadAsset(asset)
-		if err != nil {
-			panic(err)
-		}
-
-		if err := m.Load(asset, string(src)); err != nil {
-			panic(err)
-		}
-	}
-
-	// Read asset
+// ExecuteScript runs the script.
+func ExecuteScript(logger *log.Logger, r *manifold.Runtime) {
 	src, err := lib.ReadAsset("index.js")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
+	err = r.Execute("index.js", string(src))
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
-	// Execute
-	if err := m.Execute("index.js", string(src)); err != nil {
-		panic(err)
+// LoadAssets loads requried assets.
+func LoadAssets(logger *log.Logger, r *manifold.Runtime) {
+	for _, asset := range lib.ListAssetNames() {
+		if asset != "index.js" {
+			src, err := lib.ReadAsset(asset)
+			if err != nil {
+				logger.Fatal(err)
+			}
+			if err := r.Load(asset, string(src)); err != nil {
+				logger.Fatal(err)
+			}
+		}
 	}
 }
 
