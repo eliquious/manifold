@@ -1,6 +1,6 @@
 package manifold
 
-import v8 "github.com/ry/v8worker2"
+import v8 "github.com/eliquious/v8worker2"
 import builtin "github.com/eliquious/manifold/builtin"
 
 // newResolver creates a new resolver for v8 imports.

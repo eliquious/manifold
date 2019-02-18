@@ -3,7 +3,7 @@ package manifold
 import (
 	"encoding/json"
 
-	v8 "github.com/ry/v8worker2"
+	v8 "github.com/eliquious/v8worker2"
 )
 
 // New creates a new runtime with the given Invoker.
