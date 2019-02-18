@@ -6,13 +6,11 @@ This is not meant to be used as complete bindings for v8, but rather a barebones
 
 # Usage
 
-Manifold consists of very few interfaces which allow for the loading of importable modules, executing scripts and handling message passing. THe message passing is handled by an `Invoker` which is invoked every time the JS sends a message. The message handler uses the simplistic signature of `Invoke(fn string, args []string) []byte`. The message is then handled and the raw bytes are sent back to the JS as an ArrayBuffer which is parsed as JSON upon receipt. 
+Manifold consists of very few interfaces which allow for the loading of importable modules, executing scripts and handling message passing. The message passing is handled by the `Invoker` interface which is invoked every time the JS sends a message. The message handler uses the simplistic signature of `Invoke(fn string, args []string) []byte`. The message is then handled and the raw bytes are sent back to the JS as an ArrayBuffer which is parsed as JSON upon receipt. 
 
 ## Execution Environment
 
-There are only a few methods exposed to the JS runtime. `v8worker2` provides for global `print`, `send` and `recv` methods. However, `send` is wrapped to provide for the builtin formatting of the messages. Additionally, due to the ability to load modules base64 support is also provided. More builtin modules can easily be added. Builtin modules are loaded via the `simpleassets` command line tool.
-
-
+There are only a few methods exposed to the JS runtime. `v8worker2` provides for global `print`, `send` and `recv` methods. However, `send` is wrapped to provide for the builtin formatting of the messages. Additionally, due to the ability to load modules, base64 support is also provided. More builtin modules can easily be added. Builtin modules are loaded via the `simpleassets` command line tool.
 
 # Complete example
 
